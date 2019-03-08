@@ -29,6 +29,7 @@ public class SecurityUser extends AuditEntity implements UserDetails {
     this.username = username;
     this.password = password;
     this.roles = roles;
+    this.enabled = true;
   }
 
   @Override

@@ -23,10 +23,9 @@ public class SecurityService implements ReactiveUserDetailsService {
   }
 
   public Mono<SecurityUser> saveNewSecurityUser(String username, String password) {
+    Mono<SecurityUser> fallBack = Mono.error(new UsernameAlreadyExistsException(username));
     return securityRepository.findByUsername(username)
-      .flatMap(securityUser ->
-        securityUser == null
-          ? securityRepository.save(new SecurityUser(username, password, Collections.singleton(RoleEnum.ROLE_USER)))
-          : Mono.error(new UsernameAlreadyExistsException(securityUser.getUsername())));
+      .flatMap(securityUser -> fallBack)
+      .switchIfEmpty(securityRepository.save(new SecurityUser(username, password, Collections.singleton(RoleEnum.ROLE_USER))));
   }
 }
