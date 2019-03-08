@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 import springfox.documentation.annotations.ApiIgnore;
@@ -37,9 +36,9 @@ public class SecurityController {
     return securityService.findByUsername(signInRequest.getUsernameOrEmail())
       .filter(UserDetails::isEnabled)
       .filter(userDetails -> passwordEncoder.matches(signInRequest.getPassword(), userDetails.getPassword()))
-      .map(userDetails ->
-        ResponseEntity.ok().body(new SignInResponse(jwtTokenProvider.generateToken(userDetails)))).cast(ResponseEntity.class)
-      .defaultIfEmpty(ResponseEntity.badRequest().build());
+      .map(userDetails -> ResponseEntity.ok().body(new SignInResponse(jwtTokenProvider.generateToken(userDetails))))
+      .cast(ResponseEntity.class)
+      .defaultIfEmpty(ResponseEntity.badRequest().body("Username or password error"));
   }
 
   @PostMapping("sign-up")
