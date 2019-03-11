@@ -7,19 +7,19 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 public class AuditEntity extends AbstractEntity {
   @CreatedDate
-  private Date created;
+  private LocalDate created;
 
   @CreatedBy
   private String createdBy;
 
   @LastModifiedDate
-  private Date updated;
+  private LocalDate updated;
 
   @LastModifiedBy
   private String updatedBy;

@@ -34,22 +34,18 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'de.codecentric:spring-boot-admin-starter-server'
-    compileOnly 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    compile 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
-    testImplementation 'org.springframework.security:spring-security-test'
-    // https://mvnrepository.com/artifact/de.flapdoodle.embed/de.flapdoodle.embed.mongo
-    testImplementation group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: '2.2.0'
-    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+    testImplementation 'org.springframework.boot:spring-security-test'
+    //testImplementation group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: '2.2.0'
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
-    //implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    
     implementation 'io.springfox:springfox-swagger2:3.0.0-SNAPSHOT'
     implementation 'io.springfox:springfox-swagger-ui:3.0.0-SNAPSHOT'
     implementation 'io.springfox:springfox-spring-webflux:3.0.0-SNAPSHOT'
-    
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
 }
 

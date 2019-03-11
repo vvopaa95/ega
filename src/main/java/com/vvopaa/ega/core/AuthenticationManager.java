@@ -1,6 +1,6 @@
 package com.vvopaa.ega.core;
 
-import com.vvopaa.ega.security.enums.RoleEnum;
+import com.vvopaa.ega.user.enums.RoleEnum;
 import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

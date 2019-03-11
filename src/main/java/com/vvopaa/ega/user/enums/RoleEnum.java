@@ -1,4 +1,4 @@
-package com.vvopaa.ega.security.enums;
+package com.vvopaa.ega.user.enums;
 
 public enum RoleEnum {
   ROLE_USER,

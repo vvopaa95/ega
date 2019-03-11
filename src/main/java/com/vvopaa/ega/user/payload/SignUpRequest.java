@@ -1,4 +1,4 @@
-package com.vvopaa.ega.security.payload;
+package com.vvopaa.ega.user.payload;
 
 import lombok.Data;
 
