@@ -20,7 +20,7 @@ import java.io.File;
 @Slf4j
 @AllArgsConstructor
 public class EmailSenderService {
-  public static final String TPL_MSG_FORMAT = "To confirm your account, please click here:\n http://localhost:8080/confirm-account?token=%s\n";
+  public static final String TPL_MSG_FORMAT = "To confirm your account, please click here:\n http://localhost:8080/security/confirm-account?token=%s\n";
   private final JavaMailSender javaMailSender;
 
   public Mono<Void> sendEmail(SimpleMailMessage email) {

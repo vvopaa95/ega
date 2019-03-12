@@ -8,16 +8,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@SuppressWarnings("WeakerAccess")
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Document
 public class ConfirmationToken extends AbstractEntity {
-  private String confirmationToken;
+  private String token;
   private LocalDate createdDate;
   private String userId;
 
-  public ConfirmationToken(String userId) {
-    confirmationToken = UUID.randomUUID().toString();
+  ConfirmationToken(String userId) {
+    token = UUID.randomUUID().toString();
     createdDate = LocalDate.now();
     this.userId = userId;
   }

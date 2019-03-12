@@ -12,4 +12,8 @@ public class ConfirmationTokenService {
   public Mono<ConfirmationToken> saveByUserId(String userId) {
     return confirmationTokenRepository.save(new ConfirmationToken(userId));
   }
+
+  public Mono<ConfirmationToken> getByToken(String token) {
+    return confirmationTokenRepository.findByToken(token);
+  }
 }

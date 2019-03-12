@@ -15,9 +15,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 import springfox.documentation.annotations.ApiIgnore;
@@ -37,7 +35,8 @@ public class UserController {
 
   @PostMapping("sign-in")
   public Mono<ResponseEntity> signInUser(@Valid @RequestBody SignInRequest signInRequest) {
-    return userService.findByUsername(signInRequest.getUsernameOrEmail())
+    return userService
+      .findByUsername(signInRequest.getUsernameOrEmail())
       .filter(UserDetails::isEnabled)
       .filter(userDetails -> passwordEncoder.matches(signInRequest.getPassword(), userDetails.getPassword()))
       .map(userDetails -> ResponseEntity.ok().body(new SignInResponse(jwtTokenProvider.generateToken(userDetails))))
@@ -55,7 +54,7 @@ public class UserController {
         mailMessage.setTo(signUpRequest.getLogin());
         mailMessage.setSubject("Complete Registration!");
         mailMessage.setFrom("ega-no-reply@gmail.com");
-        mailMessage.setText(String.format(EmailSenderService.TPL_MSG_FORMAT,confirmationToken.getConfirmationToken()));
+        mailMessage.setText(String.format(EmailSenderService.TPL_MSG_FORMAT, confirmationToken.getToken()));
         return emailSenderService.sendEmail(mailMessage);
       })
       .map(aVoid -> UriComponentsBuilder
@@ -65,5 +64,19 @@ public class UserController {
       .map(uri -> ResponseEntity.created(uri).build())
       .cast(ResponseEntity.class)
       .onErrorResume(throwable -> Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).body(throwable.getMessage())));
+  }
+
+  @GetMapping("/confirm-account")
+  public Mono<ResponseEntity> confirmUserAccount(@RequestParam("token") String token) {
+    return confirmationTokenService
+      .getByToken(token)
+      .flatMap(confirmationToken -> userService.getById(confirmationToken.getUserId()))
+      .flatMap(user -> {
+        user.setEnabled(true);
+        return userService.save(user);
+      })
+      .map(user -> ResponseEntity.ok().build())
+      .cast(ResponseEntity.class)
+      .defaultIfEmpty(ResponseEntity.notFound().build());
   }
 }

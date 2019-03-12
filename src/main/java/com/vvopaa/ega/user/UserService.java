@@ -19,6 +19,10 @@ public class UserService implements ReactiveUserDetailsService {
     return userRepository.findByUsername(username).cast(UserDetails.class);
   }
 
+  Mono<User> getById(String id) {
+    return userRepository.findById(id);
+  }
+
   Mono<User> save(User user) {
     Function<String, Mono<User>> getErrorFallback = (username) -> Mono.error(new UsernameExistsException(username));
     return userRepository.findByUsername(user.getUsername())
