@@ -1,5 +1,6 @@
 package com.vvopaa.ega.user.payload;
 
+import com.vvopaa.ega.user.embed.UserInfo;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -15,4 +16,6 @@ public class SignUpRequest {
   @NotBlank
   @Size(min = 4, max = 20)
   private String password;
+
+  private UserInfo userInfo;
 }

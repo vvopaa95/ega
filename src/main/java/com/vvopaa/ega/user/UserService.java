@@ -1,5 +1,6 @@
 package com.vvopaa.ega.user;
 
+import com.vvopaa.ega.user.embed.UserInfo;
 import com.vvopaa.ega.user.exception.UsernameExistsException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
@@ -19,14 +20,36 @@ public class UserService implements ReactiveUserDetailsService {
     return userRepository.findByUsername(username).cast(UserDetails.class);
   }
 
+  Mono<User> findUserByUsername(String username) {
+    return userRepository.findByUsername(username);
+  }
+
   Mono<User> getById(String id) {
     return userRepository.findById(id);
   }
 
-  Mono<User> save(User user) {
+  Mono<User> saveUnique(User user) {
     Function<String, Mono<User>> getErrorFallback = (username) -> Mono.error(new UsernameExistsException(username));
     return userRepository.findByUsername(user.getUsername())
       .flatMap(foundUser -> getErrorFallback.apply(foundUser.getUsername()))
       .switchIfEmpty(userRepository.save(user));
   }
+
+  Mono<User> enable(User user) {
+    user.setEnabled(true);
+    return userRepository.save(user);
+  }
+
+  Mono<Void> deleteById(String id) {
+    return userRepository.deleteById(id);
+  }
+
+  Mono<User> updateUserInfo(UserInfo userInfo, String id) {
+    return getById(id)
+      .doOnSuccess(user -> {
+        user.setUserInfo(userInfo);
+        userRepository.save(user).subscribe();
+      });
+  }
+
 }
