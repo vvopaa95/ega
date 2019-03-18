@@ -46,7 +46,10 @@ public class UserController {
   }
 
   @PostMapping("sign-up")
-  public Mono<ResponseEntity> signUpUser(@Valid @RequestBody SignUpRequest signUpRequest, @ApiIgnore ServerHttpRequest serverHttpRequest) {
+  public Mono<ResponseEntity> signUpUser(
+    @Valid @RequestBody SignUpRequest signUpRequest,
+    @ApiIgnore ServerHttpRequest serverHttpRequest
+  ) {
     return userService
       .saveUnique(
         new User(
@@ -70,17 +73,15 @@ public class UserController {
         .toUri())
       .map(uri -> ResponseEntity.created(uri).build())
       .cast(ResponseEntity.class)
-      .onErrorResume(throwable -> {
-        //Class<?> throwableClass = throwable.getClass();
-        //ResponseEntity response = ResponseEntity.status(HttpStatus.CONFLICT).body(throwable.getMessage());
-        return Mono.just(throwable)
+      .onErrorResume(throwable ->
+        Mono.just(throwable)
           .filter(throwableCurr -> throwableCurr.getClass().getSuperclass().equals(MailException.class))
           .flatMap(throwableReal -> userService
             .findUserByUsername(signUpRequest.getLogin())
             .flatMap(user -> confirmationTokenService.deleteByUserId(user.getId()).thenReturn(user))
             .flatMap(user -> userService.deleteById(user.getId())))
-          .thenReturn(ResponseEntity.status(HttpStatus.CONFLICT).body(throwable.getMessage()));
-      });
+          .thenReturn(ResponseEntity.status(HttpStatus.CONFLICT).body(throwable.getMessage()))
+      );
   }
 
   @GetMapping("/confirm-account")
