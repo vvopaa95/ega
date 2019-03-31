@@ -1,6 +1,6 @@
 package com.vvopaa.ega.user.payload;
 
-import com.vvopaa.ega.user.embed.UserInfo;
+import com.vvopaa.ega.player.embed.PlayerInfo;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -17,5 +17,5 @@ public class SignUpRequest {
   @Size(min = 4, max = 20)
   private String password;
 
-  private UserInfo userInfo;
+  private PlayerInfo playerInfo;
 }

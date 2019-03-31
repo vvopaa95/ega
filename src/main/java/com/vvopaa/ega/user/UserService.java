@@ -1,6 +1,5 @@
 package com.vvopaa.ega.user;
 
-import com.vvopaa.ega.user.embed.UserInfo;
 import com.vvopaa.ega.user.exception.UsernameExistsException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
@@ -42,14 +41,6 @@ public class UserService implements ReactiveUserDetailsService {
 
   Mono<Void> deleteById(String id) {
     return userRepository.deleteById(id);
-  }
-
-  Mono<User> updateUserInfo(UserInfo userInfo, String id) {
-    return getById(id)
-      .doOnSuccess(user -> {
-        user.setUserInfo(userInfo);
-        userRepository.save(user).subscribe();
-      });
   }
 
 }

@@ -2,7 +2,6 @@ package com.vvopaa.ega.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vvopaa.ega.common.model.AuditEntity;
-import com.vvopaa.ega.user.embed.UserInfo;
 import com.vvopaa.ega.user.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,13 +26,11 @@ public class User extends AuditEntity implements UserDetails {
   private String password;
   private boolean enabled;
   private Set<RoleEnum> roles;
-  private UserInfo userInfo;
 
-  User(String username, String password, Set<RoleEnum> roles, UserInfo userInfo) {
+  User(String username, String password, Set<RoleEnum> roles) {
     this.username = username;
     this.password = password;
     this.roles = roles;
-    this.userInfo = userInfo;
   }
 
   @Override

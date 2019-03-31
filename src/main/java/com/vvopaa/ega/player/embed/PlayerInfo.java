@@ -1,16 +1,18 @@
-package com.vvopaa.ega.user.embed;
+package com.vvopaa.ega.player.embed;
 
 import com.vvopaa.ega.user.enums.GenderEnum;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInfo {
+public class PlayerInfo {
   private String firstName;
   private String lastName;
   private GenderEnum gender;

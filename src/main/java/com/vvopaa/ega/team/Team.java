@@ -20,6 +20,5 @@ public class Team extends AuditEntity {
   private String siteHref;
   private String countryCode;
   private String city;
-  private String leader; // Later Account class
-  private String creatorId;
+  private String ownerId;
 }
