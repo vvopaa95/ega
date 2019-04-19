@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -19,5 +21,20 @@ public class Player extends AbstractEntity {
   public Player(PlayerInfo playerInfo, String userId) {
     this.playerInfo = playerInfo;
     this.userId = userId;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Player player = (Player) o;
+    return Objects.equals(playerInfo, player.playerInfo) &&
+      Objects.equals(teamId, player.teamId) &&
+      Objects.equals(userId, player.userId);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(playerInfo, teamId, userId);
   }
 }

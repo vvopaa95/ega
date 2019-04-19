@@ -28,7 +28,7 @@ public class UserService implements ReactiveUserDetailsService {
   }
 
   Mono<User> saveUnique(User user) {
-    Function<String, Mono<User>> getErrorFallback = (username) -> Mono.error(new UsernameExistsException(username));
+    Function<String, Mono<User>> getErrorFallback = username -> Mono.error(new UsernameExistsException(username));
     return userRepository.findByUsername(user.getUsername())
       .flatMap(foundUser -> getErrorFallback.apply(foundUser.getUsername()))
       .switchIfEmpty(userRepository.save(user));
